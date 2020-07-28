@@ -19,7 +19,7 @@ class COINCOLLECTOR_API ABasePlayer : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ABasePlayer();
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -31,12 +31,16 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void CalculateValues();
+
+
+	/** Camera Setup */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UStaticMeshComponent* Mesh;
+		UStaticMeshComponent* Mesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	USpringArmComponent* SpringArm;
+		USpringArmComponent* SpringArm;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UCameraComponent* Camera;
+		UCameraComponent* Camera;
 };
