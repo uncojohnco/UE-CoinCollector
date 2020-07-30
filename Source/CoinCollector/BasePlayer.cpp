@@ -2,12 +2,9 @@
 
 
 #include "BasePlayer.h"
-
+#include "CoinCollector.h"
 
 #include "AssetRegistryModule.h"
-
-//General Log
-DEFINE_LOG_CATEGORY(LogMyGame);
 
 
 // Sets default values
@@ -33,7 +30,7 @@ ABasePlayer::ABasePlayer()
 	SpringArmRotation = FRotator(-100.0f, 0, 0);
 	SpringArmTargetLength = 1000.0f;
 
-	SpringArm->SetRelativeRotation(SpringArmRotation, false, nullptr, ETeleportType::None);
+	SpringArm->SetWorldRotation(SpringArmRotation, false, nullptr, ETeleportType::None);
 	SpringArm->TargetArmLength = SpringArmTargetLength;
 
 	// Set Defaults for "Player"
@@ -105,7 +102,7 @@ void ABasePlayer::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedE
 
 	if (PropertyName == TEXT("SpringArmRotation"))
 	{
-		SpringArm->SetRelativeRotation(SpringArmRotation, false, 0, ETeleportType::None);
+		SpringArm->SetWorldRotation(SpringArmRotation, false, 0, ETeleportType::None);
 	}
 	else if (PropertyName == TEXT("SpringArmTargetLength"))
 	{
@@ -114,6 +111,7 @@ void ABasePlayer::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedE
 	else if (PropertyName == TEXT("PlayerMesh"))
 	{
 		Mesh->SetStaticMesh(PlayerMesh);
+		Mesh->SetSimulatePhysics(true);
 	}
 
 }

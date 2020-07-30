@@ -12,10 +12,6 @@
 #include "BasePlayer.generated.h"
 
 
-//General Log
-DECLARE_LOG_CATEGORY_EXTERN(LogMyGame, Log, All);
-
-
 UCLASS(Config = BasePlayer)
 class COINCOLLECTOR_API ABasePlayer : public APawn
 {
@@ -26,7 +22,7 @@ public:
 	// Camera Setup
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UStaticMeshComponent* Mesh;
+		UStaticMeshComponent* Mesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		USpringArmComponent* SpringArm;
@@ -46,10 +42,14 @@ public:
 
 	// Player Movement Behaviour
 	
-	// Mesh representing the Player
+	// Mesh of the Player
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UStaticMesh* PlayerMesh;
 
+	// Material of the Player
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UStaticMesh* PlayerMaterial;
+	
 	// Force multiplier applied when moving the Player
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float MovementForce;
@@ -58,11 +58,13 @@ public:
 	ABasePlayer();
 
 protected:
+	
 	// Called when the game starts or when spawned
 	void BeginPlay() override;
-	virtual void InitPlayerMesh(const FName PlayerMeshObjectPath);
+	void InitPlayerMesh(const FName PlayerMeshObjectPath);
 	
-public:	
+public:
+	
 	// Called every frame
 	void Tick(float DeltaTime) override;
 
