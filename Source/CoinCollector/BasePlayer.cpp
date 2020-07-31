@@ -11,6 +11,8 @@
 ABasePlayer::ABasePlayer()
 
 {
+	V_LOG(LogMyGame, Verbose, TEXT("START"));
+	
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -40,24 +42,27 @@ ABasePlayer::ABasePlayer()
 	const FName PlayerMeshObjectPath = FName(TEXT("/Game/CoinCollector/Meshes/SM_Sphere.SM_Sphere"));
 
     ABasePlayer::InitPlayerMesh(PlayerMeshObjectPath);
+	
+	V_LOG(LogMyGame, Verbose, TEXT("END"));
 }
 
 // Setup the Player mesh from defaults
-void ABasePlayer::InitPlayerMesh(const FName PlayerMeshObjectPath)
+void ABasePlayer::InitPlayerMesh(const FName ObjectPath)
 {
 	// Validate that the path to the object exists
 	FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
 	const FAssetData PlayerMeshObject = AssetRegistryModule.Get()
-		.GetAssetByObjectPath(PlayerMeshObjectPath, true);
+		.GetAssetByObjectPath(ObjectPath, true);
 
 	if (!PlayerMeshObject.IsValid())
 	{
-		UE_LOG(LogMyGame, Warning, TEXT("Unable to find default player asset path: \"%s\""), *PlayerMeshObjectPath.ToString());
+		const FString Msg = FString::Printf(TEXT("Unable to find \"PlayerMeshObjectPath\" path: \"%s\""), *ObjectPath.ToString());
+		V_LOG(LogMyGame, Warning, Msg);
 		return;
 	}
 
 	PlayerMesh = ConstructorHelpers::FObjectFinder<UStaticMesh>
-		(*PlayerMeshObjectPath.ToString()).Object;
+		(*ObjectPath.ToString()).Object;
 	Mesh->SetStaticMesh(PlayerMesh);
 	Mesh->SetSimulatePhysics(true);
 }
